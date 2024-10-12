@@ -33,12 +33,16 @@ app.get("*", (req, res, next) => {
 });
 
 setInterval(async () => {
-  console.log("Ping");
-  const response =  await axios({
-    method: "get",
-    url: "https://awana-backend.onrender.com",
-  });
-  console.log(response);
+  try {
+    console.log("Ping");
+    const response = await axios({
+      method: "get",
+      url: "https://awana-backend.onrender.com/api/clubs",
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
 }, 10 * 60 * 1000);
 
 // Error handling middleware
