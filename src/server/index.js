@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 
+const axios = require("axios");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -29,6 +31,15 @@ app.use("/api/games", gameRoutes);
 app.get("*", (req, res, next) => {
   res.status(404).send({ message: "Server working" });
 });
+
+setInterval(async () => {
+  console.log("Ping");
+  const response =  await axios({
+    method: "get",
+    url: "https://awana-backend.onrender.com",
+  });
+  console.log(response);
+}, 10 * 60 * 1000);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
