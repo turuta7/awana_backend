@@ -5,6 +5,9 @@ const gameController = require("../controllers/gameController");
 // GET: Retrieve all games
 router.get("/", gameController.getAllGames);
 
+// GET: Retrieve all games bt club
+router.get("/club/:clubId", gameController.getAllGamesByClub);
+
 // POST: Create a new game
 router.post("/", gameController.createGame);
 

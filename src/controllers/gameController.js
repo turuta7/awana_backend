@@ -11,6 +11,16 @@ class GameController {
     }
   }
 
+  async getAllGamesByClub(req, res) {
+    try {
+      const { clubId } = req.params; 
+      const games = await Models.Game.find({ club: clubId }).populate("club");
+      res.status(200).json(games);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving games", error: error.message });
+    }
+  }
+
   // Create a new game
   async createGame(req, res) {
     try {
