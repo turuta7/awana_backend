@@ -40,6 +40,14 @@ setInterval(async () => {
       url: "https://awana-backend.onrender.com/api/clubs",
     });
     console.log(response.data);
+
+    const responseFron = await axios({
+      method: "get",
+      url: "https://awana-front.onrender.com",
+    });
+    console.log(responseFron.data);
+
+    
   } catch (error) {
     console.log(error);
   }
