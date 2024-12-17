@@ -15,12 +15,12 @@ app.use(morgan("dev"));
 // Enable CORS
 app.use(
   cors({
-    origin: "https://awana-front.onrender.com", // Укажите домен клиента
-    credentials: true, // Включить передачу куки
+    origin: "https://awana-front.onrender.com", // Specific frontend URL
+    credentials: true, // Allow cookies to be included
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Explicitly define allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Explicitly define allowed headers
   })
 );
-
-app.options("*", cors());
 
 // Security with Helmet
 app.use(helmet());
