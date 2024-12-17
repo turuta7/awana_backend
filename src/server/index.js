@@ -13,7 +13,12 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan("dev"));
 
 // Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Укажите домен клиента
+    credentials: true, // Включить передачу куки
+  })
+);
 
 // Security with Helmet
 app.use(helmet());
