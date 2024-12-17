@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
 
 const axios = require("axios");
 
@@ -20,6 +21,8 @@ app.use(helmet());
 // Body parsing for JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
 
 const clubRoutes = require("../routes/clubRoutes");
 const gameRoutes = require("../routes/gameRoutes");
@@ -46,8 +49,6 @@ setInterval(async () => {
       url: "https://awana-front.onrender.com",
     });
     console.log(responseFron.data);
-
-    
   } catch (error) {
     console.log(error);
   }

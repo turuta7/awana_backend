@@ -41,7 +41,11 @@ class ClubController {
   // Delete a club
   async deleteClub(req, res) {
     try {
-      if (true) return res.status(403).json({ message: "Forbidden" });
+      const { password } = req.cookies;
+
+      if (!password || password !== "tur098") {
+        return res.status(403).json({ message: "Forbidden" });
+      }
       const deletedClub = await Models.Club.findByIdAndDelete(req.params.id);
 
       // Delete all games associated with the club
