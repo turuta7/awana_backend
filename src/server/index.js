@@ -39,7 +39,7 @@ app.use(cookieParser());
 // Example route to set cookies
 app.get("/set-cookie", (req, res) => {
   res.cookie("sessionId", "exampleSessionId", {
-    httpOnly: true, // Protects cookie from being accessed by client-side scripts
+    // httpOnly: true, // Protects cookie from being accessed by client-side scripts
     secure: true, // Requires HTTPS
     sameSite: "None", // Allows cross-domain usage of cookies
   });
