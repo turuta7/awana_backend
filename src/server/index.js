@@ -12,6 +12,14 @@ const PORT = process.env.PORT || 3000;
 // Request logging
 app.use(morgan("dev"));
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Set-Cookie",
+    "sessionId=your-session-id; SameSite=None; Secure; HttpOnly"
+  );
+  next();
+});
+
 // Enable CORS
 app.use(
   cors({
