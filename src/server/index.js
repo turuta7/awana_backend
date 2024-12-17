@@ -12,14 +12,6 @@ const PORT = process.env.PORT || 3000;
 // Request logging
 app.use(morgan("dev"));
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Set-Cookie",
-    "sessionId=your-session-id; SameSite=None; Secure; HttpOnly"
-  );
-  next();
-});
-
 // Enable CORS
 app.use(
   cors({
@@ -31,25 +23,42 @@ app.use(
 );
 
 // Security with Helmet
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Отключаем CSP, если вызывает конфликты
+  })
+);
 
 // Body parsing for JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Enable cookie parsing
 app.use(cookieParser());
 
+// Example route to set cookies
+app.get("/set-cookie", (req, res) => {
+  res.cookie("sessionId", "exampleSessionId", {
+    httpOnly: true, // Protects cookie from being accessed by client-side scripts
+    secure: true, // Requires HTTPS
+    sameSite: "None", // Allows cross-domain usage of cookies
+  });
+  res.status(200).send({ message: "Cookie set successfully" });
+});
+
+// Routes
 const clubRoutes = require("../routes/clubRoutes");
 const gameRoutes = require("../routes/gameRoutes");
 
 app.use("/api/clubs", clubRoutes);
 app.use("/api/games", gameRoutes);
 
-// Request handler
-app.get("*", (req, res, next) => {
-  res.status(404).send({ message: "Server working" });
+// Handle unmatched routes
+app.get("*", (req, res) => {
+  res.status(404).send({ message: "Not Found" });
 });
 
+// Keep server alive by pinging itself
 setInterval(async () => {
   try {
     console.log("Ping");
@@ -59,13 +68,13 @@ setInterval(async () => {
     });
     console.log(response.data);
 
-    const responseFron = await axios({
+    const responseFront = await axios({
       method: "get",
       url: "https://awana-front.onrender.com",
     });
-    console.log(responseFron.data);
+    console.log(responseFront.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }, 10 * 60 * 1000);
 
@@ -77,7 +86,7 @@ app.use((err, req, res, next) => {
 
 module.exports = { app, PORT };
 
-// // Start the server
+// Uncomment to start the server if needed
 // app.listen(PORT, () => {
 //   console.log(`Server started on port: ${PORT}`);
 // });
