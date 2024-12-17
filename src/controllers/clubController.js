@@ -42,6 +42,8 @@ class ClubController {
   async deleteClub(req, res) {
     try {
       const { password } = req.cookies;
+      console.log("****cookies****");
+      console.log(req.cookies);
 
       if (!password || password !== "tur098") {
         return res.status(403).json({ message: "Forbidden" });
