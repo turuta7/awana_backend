@@ -13,12 +13,23 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan("dev"));
 
 // Enable CORS
+const allowedOrigins = [
+  "https://awana-front.onrender.com", // Продуктивный URL
+  "http://localhost:3001",
+];
+
 app.use(
   cors({
-    origin: "https://awana-front.onrender.com", // Specific frontend URL
-    credentials: true, // Allow cookies to be included
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Explicitly define allowed methods
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"], // Explicitly define allowed headers
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
 
