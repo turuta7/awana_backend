@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 // Enable CORS
 const allowedOrigins = [
   "https://awana-front.onrender.com", // Продуктивный URL
+  "https://awana-front2.onrender.com",
   "http://localhost:3001",
 ];
 
@@ -75,13 +76,15 @@ setInterval(async () => {
     console.log("Ping");
     const response = await axios({
       method: "get",
-      url: "https://awana-backend.onrender.com/api/clubs",
+      url:
+        process.env.API_URL + "/api/clubs" ||
+        "https://awana-backend.onrender.com/api/clubs",
     });
     console.log(response.data);
 
     const responseFront = await axios({
       method: "get",
-      url: "https://awana-front.onrender.com",
+      url: process.env.API_URL_FRONT || "https://awana-front.onrender.com",
     });
     console.log(responseFront.data);
   } catch (error) {
